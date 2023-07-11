@@ -64,8 +64,14 @@ endif
 CONTAINERS = ./containers.a
 TLSH = ./libtlsh.a
 MVPTREE = ./libmvptree.a
-STDCXX = $(shell find /usr/lib -name "libstdc++.a" | grep x86_64 | grep -v 32 | head -n 1)
 
+STDCXX_UBUNTU = $(shell find /usr/lib -name "libstdc++.a" | grep x86_64 | grep -v 32 | head -n 1)
+ifneq ("$(wildcard $(STDCXX_UBUNTU))","") # Check if STDCXX_UBUNTU exists
+    STDCXX = $STDCXX_UBUNTU
+else
+    STDCXX = $(shell find /usr/lib -name "libstdc++.a" | grep -v 32 | head -n 1)
+endif
+    
 all: test_deps $(PROGS) test_build all_done obj_section_rename
 
 test_deps:
@@ -79,6 +85,8 @@ endif
 	@which $(CC) >/dev/null 2>&1 || ( echo "[-] Oops, can't find '$(CC)'. Make sure that it's in your \$$PATH (or set \$$CC and \$$CXX)."; exit 1 )
 	@echo "[*] Checking for '../afl-showmap'..."
 	@test -f ../afl-showmap || ( echo "[-] Oops, can't find '../afl-showmap'. Be sure to compile AFL first."; exit 1 )
+	@echo "[*] Checking for 'libstdc++.a'... $STDCXX_UBUNTU"
+	@test -f $(STDCXX) || ( echo "[-] Oops, can't find 'libstdc++.a'."; exit 1 )
 	@echo "[+] All set and ready to build."
 
 ../afl-clang-fast: afl-clang-fast.c | test_deps
@@ -100,6 +108,7 @@ $(MVPTREE):
 
 $(TLSH):
 	cd tlsh && \
+	patch < ../tlsh.patch && \
 	mkdir -p build && \
 	cd build && \
 	cmake .. && \

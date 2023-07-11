@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 667aba6..b207570 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -58,6 +58,7 @@ project(TLSH)
+ set(VERSION_MAJOR 4)
+ set(VERSION_MINOR 7)
+ set(VERSION_PATCH 2)
++add_definitions(-fPIC)
+ 
+ # TLSH uses only half the counting buckets.
+ # It can use all the buckets now.
