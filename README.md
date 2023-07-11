@@ -52,7 +52,7 @@ Download StateAFL and compile it. We have tested StateAFL on Ubuntu 18.04 and Ub
 
 ```bash
 # First, clone this StateAFL repository to a folder named stateafl
-git clone <links to the repository> stateafl
+git clone --recurse-submodules <links to the repository> stateafl
 # Then move to the source code folder
 cd stateafl
 make clean all

@@ -85,7 +85,7 @@ endif
 	@which $(CC) >/dev/null 2>&1 || ( echo "[-] Oops, can't find '$(CC)'. Make sure that it's in your \$$PATH (or set \$$CC and \$$CXX)."; exit 1 )
 	@echo "[*] Checking for '../afl-showmap'..."
 	@test -f ../afl-showmap || ( echo "[-] Oops, can't find '../afl-showmap'. Be sure to compile AFL first."; exit 1 )
-	@echo "[*] Checking for 'libstdc++.a'... $STDCXX_UBUNTU"
+	@echo "[*] Checking for 'libstdc++.a'..."
 	@test -f $(STDCXX) || ( echo "[-] Oops, can't find 'libstdc++.a'."; exit 1 )
 	@echo "[+] All set and ready to build."
 
@@ -162,5 +162,5 @@ all_done: test_build
 .NOTPARALLEL: clean
 
 clean:
-	rm -f *.o *.so *~ a.out core core.[1-9][0-9]* test-instr .test-instr0 .test-instr1 
+	rm -f *.o *.so *.a *~ a.out core core.[1-9][0-9]* test-instr .test-instr0 .test-instr1 
 	rm -f $(PROGS) ../afl-clang-fast++
